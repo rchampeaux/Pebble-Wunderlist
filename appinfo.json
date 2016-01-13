@@ -1,0 +1,19 @@
+{
+    "appKeys": {},
+    "capabilities": [
+        ""
+    ],
+    "companyName": "richchampeaux@gmail.com",
+    "longName": "Pebble-Wunderlist",
+    "projectType": "native",
+    "resources": {
+        "media": []
+    },
+    "sdkVersion": "3",
+    "shortName": "Pebble-Wunderlist",
+    "uuid": "0cec8ba7-1949-44f6-90c5-d32c16c1f58a",
+    "versionLabel": "1.0",
+    "watchapp": {
+        "watchface": false
+    }
+}
