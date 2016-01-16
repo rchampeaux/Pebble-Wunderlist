@@ -1,40 +1,10 @@
 #include <pebble.h>
 #include "checklist_layer.h"
+#include "Item.h"
 
 GBitmap *tick_black_bitmap, *tick_white_bitmap;
 GFont font;
 
-Item* createItem(char* name) {
-  Item* item = malloc(sizeof(Item));
-  item->name = name;
-  item->isChecked = false;
-  
-  return item;
-}
-
-void init_item_list() {
-  items[0] = createItem("Milk");
-  items[1] = createItem("Bread");
-  items[2] = createItem("Peanut Butter");
-  items[3] = createItem("Eggs");
-  items[4] = createItem("Ground Beef");
-  items[5] = createItem("Raisen Bran");
-  items[6] = createItem("Chicken Breasts");
-  items[7] = createItem("Green Beans");
-  items[8] = createItem("Chips");
-  items[9] = createItem("Dip");
-  
-//   items[0] = "Milk";
-//   items[1] = "Bread";
-//   items[2] = "Peanut Butter";
-//   items[3] = "Eggs";
-//   items[4] = "Ground Beef";
-//   items[5] = "Raisen Bran";
-//   items[6] = "Chicken Breasts";
-//   items[7] = "Green Beans";
-//   items[8] = "Chips";
-//   items[9] = "Dip";
-}
 
 void init_checklist(Window* window) {
   Layer *window_layer = window_get_root_layer(window);
@@ -58,7 +28,7 @@ void init_checklist(Window* window) {
 }
 
 uint16_t get_num_rows_callback(MenuLayer *menu_layer, uint16_t section_index, void *context) {
-  return CHECKBOX_WINDOW_NUM_ROWS;
+  return itemCount;
 }
 
 void draw_row_callback(GContext *ctx, const Layer *cell_layer, MenuIndex *cell_index, void *context) {
@@ -111,32 +81,6 @@ int16_t get_cell_height_callback(struct MenuLayer *menu_layer, MenuIndex *cell_i
     menu_layer_is_index_selected(menu_layer, cell_index) ?
       SHORT_CELL_HEIGHT : TALL_CELL_HEIGHT,
     CHECKBOX_WINDOW_CELL_HEIGHT);
-}
-
-void moveToChecked(int row) {
-  Item* item = items[row];
-  for(int i=row+1; i < CHECKBOX_WINDOW_NUM_ROWS; i++) {
-    items[i-1] = items[i];
-  }  
-  
-  items[CHECKBOX_WINDOW_NUM_ROWS-1] = item;
-}
-
-void moveToUnchecked(int row) {
-  int targetIndex = 0;
-  for(; targetIndex<row; targetIndex++) {
-    if (items[targetIndex]->isChecked) {
-      break;
-    }
-  }
-  
-  Item* item = items[row];
-  for(int i=targetIndex; i<row; i++) {
-    items[i+1] = items[i];
-  }
-  
-  items[targetIndex] = item;
-  item->isChecked = false;
 }
 
 void select_callback(struct MenuLayer *menu_layer, MenuIndex *cell_index, void *callback_context) {
