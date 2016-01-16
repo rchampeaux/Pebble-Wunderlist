@@ -16,4 +16,5 @@ uint16_t get_num_rows_callback(MenuLayer *menu_layer, uint16_t section_index, vo
 void draw_row_callback(GContext *ctx, const Layer *cell_layer, MenuIndex *cell_index, void *context);
 int16_t get_cell_height_callback(struct MenuLayer *menu_layer, MenuIndex *cell_index, void *context);
 void select_callback(struct MenuLayer *menu_layer, MenuIndex *cell_index, void *callback_context);
+void selection_changed(struct MenuLayer *menu_layer, MenuIndex newIndex, MenuIndex oldIndex, void *callback_context);
 

@@ -1,10 +1,12 @@
 #include <pebble.h>
 #include "checklist_layer.h"
-#include "Item.h"
+#include "item.h"
+
+#define SORT_DELAY 1000
 
 GBitmap *tick_black_bitmap, *tick_white_bitmap;
 GFont font;
-
+AppTimer* sortTimer;
 
 void init_checklist(Window* window) {
   Layer *window_layer = window_get_root_layer(window);
@@ -21,6 +23,7 @@ void init_checklist(Window* window) {
       .draw_row = draw_row_callback,
       .get_cell_height = get_cell_height_callback,
       .select_click = select_callback,
+      .selection_changed = selection_changed,
   });
   
   layer_add_child(window_layer, menu_layer_get_layer(menu_layer));
@@ -83,19 +86,32 @@ int16_t get_cell_height_callback(struct MenuLayer *menu_layer, MenuIndex *cell_i
     CHECKBOX_WINDOW_CELL_HEIGHT);
 }
 
+void sortTimerCallback(void* data) {
+  sortItems();
+  menu_layer_reload_data(menu_layer);
+  app_timer_cancel(sortTimer);
+  sortTimer = NULL;
+}
+
 void select_callback(struct MenuLayer *menu_layer, MenuIndex *cell_index, void *callback_context) {
   // Check/uncheck
   int row = cell_index->row;
   items[row]->isChecked = !items[row]->isChecked;
-  
-//   menu_layer_reload_data(menu_layer);
-//   psleep(1000);
-  
-//   if (items[row]->isChecked) {
-//     moveToChecked(row);
-//   } else {
-//     moveToUnchecked(row);
-//   }
-  
+
   menu_layer_reload_data(menu_layer);
+  
+  if (sortTimer != NULL) {
+    app_timer_reschedule(sortTimer, SORT_DELAY);
+  }
+  else {
+    sortTimer = app_timer_register(SORT_DELAY, sortTimerCallback, NULL);
+  }
 }
+
+void selection_changed(struct MenuLayer *menu_layer, MenuIndex newIndex, MenuIndex oldIndex, void *callback_context) {
+  if (sortTimer != NULL) {
+    app_timer_reschedule(sortTimer, SORT_DELAY);
+  }
+}
+  
+
