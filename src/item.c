@@ -1,5 +1,8 @@
 #include <pebble.h>
 #include "item.h"
+#include "checklist_layer.h"
+
+#define MAX_ITEMS 50
 
 Item* createItem(char* name, int id, int order) {
   Item* item = malloc(sizeof(Item));
@@ -11,22 +14,39 @@ Item* createItem(char* name, int id, int order) {
   return item;
 }
 
+void clearItems() {
+  for(int i=0; i<itemCount; i++) {
+    free(items[i]->name);
+    free(items[i]);
+    items[i] = NULL;
+  }
+  
+  itemCount = 0;
+}
+
+void addItem(int id, char* name, int order, bool isChecked) {
+  if (itemCount < MAX_ITEMS) {
+    Item* item = malloc(sizeof(Item));
+    item->id = id;
+    item->name = malloc(strlen(name)+1);
+    strcpy(item->name, name);
+    item->order = order;
+    item->isChecked = isChecked;
+    items[itemCount] = item;
+    itemCount++;
+    sortItems();
+    
+    reloadMenu();
+  }
+}
+
 void init_item_list() {
-  itemCount = 10;
-  items = malloc(itemCount * sizeof(Item*));
+  itemCount = 0;
+  items = malloc(MAX_ITEMS * sizeof(Item*));
   
-  items[0] = createItem("Milk", 1, 1);
-  items[1] = createItem("Bread", 2, 2);
-  items[2] = createItem("Peanut Butter", 3, 3);
-  items[3] = createItem("Eggs", 4, 4);
-  items[4] = createItem("Ground Beef", 9, 9);
-  items[5] = createItem("Raisen Bran", 5, 5);
-  items[6] = createItem("Chicken Breasts", 8, 8);
-  items[7] = createItem("Green Beans", 10, 10);
-  items[8] = createItem("Chips", 6, 6);
-  items[9] = createItem("Dip", 7, 7);
-  
-  sortItems();
+  for(int i=0; i<MAX_ITEMS; i++) {
+    items[i] = NULL;
+  }  
 }
 
 int compareItem(Item* item1, Item* item2) {

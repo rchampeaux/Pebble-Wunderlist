@@ -11,6 +11,7 @@
 MenuLayer *menu_layer;
 
 void init_checklist(Window* window);
+void reloadMenu();
 
 uint16_t get_num_rows_callback(MenuLayer *menu_layer, uint16_t section_index, void *context);
 void draw_row_callback(GContext *ctx, const Layer *cell_layer, MenuIndex *cell_index, void *context);

@@ -37,7 +37,7 @@ uint16_t get_num_rows_callback(MenuLayer *menu_layer, uint16_t section_index, vo
 void draw_row_callback(GContext *ctx, const Layer *cell_layer, MenuIndex *cell_index, void *context) {
   char* buf = items[(int)cell_index->row]->name;
   GRect bounds = layer_get_bounds(cell_layer);
-  
+    
   GSize size = graphics_text_layout_get_content_size(buf, font, bounds, GTextOverflowModeTrailingEllipsis, GTextAlignmentLeft);
   
   int x = bounds.origin.x + (bounds.size.w - size.w) / 2;
@@ -86,11 +86,16 @@ int16_t get_cell_height_callback(struct MenuLayer *menu_layer, MenuIndex *cell_i
     CHECKBOX_WINDOW_CELL_HEIGHT);
 }
 
-void sortTimerCallback(void* data) {
-  sortItems();
+void reloadMenu() {
   menu_layer_reload_data(menu_layer);
+}
+
+void sortTimerCallback(void* data) {
   app_timer_cancel(sortTimer);
   sortTimer = NULL;
+
+  sortItems();
+  reloadMenu();
 }
 
 void select_callback(struct MenuLayer *menu_layer, MenuIndex *cell_index, void *callback_context) {

@@ -1,4 +1,5 @@
 #include "main.h"
+#include "phone.h"
 #include "checklist_layer.h"
 
 
@@ -16,6 +17,8 @@ void window_unload(Window* window) {
 }
 
 void handle_init(void) {
+  init_phone_connection();
+  
   my_window = window_create();
   
   window_set_window_handlers(my_window, (WindowHandlers) {
@@ -29,6 +32,7 @@ void handle_init(void) {
 void handle_deinit(void) {
   menu_layer_destroy(menu_layer);
   window_destroy(my_window);
+  deinit_phone_connection();
 }
 
 int main(void) {

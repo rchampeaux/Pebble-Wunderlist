@@ -1,5 +1,12 @@
 {
-    "appKeys": {},
+    "appKeys": {
+        "add": 1,
+        "clear": 0,
+        "isChecked": 5,
+        "name": 3,
+        "order": 4,
+        "update": 2
+    },
     "capabilities": [
         ""
     ],
@@ -24,7 +31,12 @@
     },
     "sdkVersion": "3",
     "shortName": "Pebble-Wunderlist",
-    "uuid": "0cec8ba7-1949-44f6-90c5-d32c16c1f58a",
+    "targetPlatforms": [
+        "aplite",
+        "basalt",
+        "chalk"
+    ],
+    "uuid": "bacc4abd-0438-4d16-bbde-c7c355dbbd19",
     "versionLabel": "1.0",
     "watchapp": {
         "watchface": false

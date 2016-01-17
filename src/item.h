@@ -13,5 +13,6 @@ Item** items;
 void init_item_list();
 
 void sortItems();
-void moveToChecked(int row);
-void moveToUnchecked(int row);
+
+void addItem(int id, char* name, int order, bool isChecked);
+void clearItems();
