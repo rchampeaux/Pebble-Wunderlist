@@ -29,5 +29,5 @@ Pebble.addEventListener("ready",
 
 Pebble.addEventListener("appmessage",
 							function(e) {
-								console.log("Received Status: " + e.payload.status);
+								console.log("Received Update: " + e.payload.update + " " + e.payload.isChecked);
 							});

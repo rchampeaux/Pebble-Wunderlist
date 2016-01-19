@@ -1,6 +1,7 @@
 #include <pebble.h>
 #include "checklist_layer.h"
 #include "item.h"
+#include "phone.h"
 
 #define SORT_DELAY 1000
 
@@ -91,7 +92,7 @@ void reloadMenu() {
 }
 
 void sortTimerCallback(void* data) {
-  app_timer_cancel(sortTimer);
+//  app_timer_cancel(sortTimer);
   sortTimer = NULL;
 
   sortItems();
@@ -111,6 +112,8 @@ void select_callback(struct MenuLayer *menu_layer, MenuIndex *cell_index, void *
   else {
     sortTimer = app_timer_register(SORT_DELAY, sortTimerCallback, NULL);
   }
+  
+  updateItemStatus(items[row]->id, items[row]->isChecked);
 }
 
 void selection_changed(struct MenuLayer *menu_layer, MenuIndex newIndex, MenuIndex oldIndex, void *callback_context) {

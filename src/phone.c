@@ -11,15 +11,16 @@ enum {
   IS_CHECKED_KEY = 5
 };
 
-void send_message(int message) {
-// 	DictionaryIterator *iter;
+void updateItemStatus(int id, bool isChecked) {
+	DictionaryIterator *iter;
 	
-// 	app_message_outbox_begin(&iter);
-// 	dict_write_uint8(iter, STATUS_KEY, message);
-	
-// 	dict_write_end(iter);
-//   	app_message_outbox_send();
+	app_message_outbox_begin(&iter);
+	dict_write_uint16(iter, UPDATE_KEY, id);
+	dict_write_uint8(iter, IS_CHECKED_KEY, isChecked ? 1 : 0);
+	dict_write_end(iter);
+ 	app_message_outbox_send();
 }
+
 
 static void in_received_handler(DictionaryIterator *received, void *context) {
 	Tuple *tuple;
